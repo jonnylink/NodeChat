@@ -1,11 +1,12 @@
 const express = require('express');
-const { chat } = require('../services/openai');
+const { chatFactory } = require('../chatFactory');
 const { queryWeather } = require('../services/weather');
 
 const router = express.Router();
 
 router.get('/what-to-wear', async (_, res) => {
     try {
+        const { client } = req.query;
         const weatherDetails = await queryWeather();
         const message = `The weather forecast for today for zip code ${process.env.ZIP}
             is that it will be ${weatherDetails.summary}
@@ -14,12 +15,12 @@ router.get('/what-to-wear', async (_, res) => {
             It will ${weatherDetails.willRain ? 'rain' : 'not rain'} and ${weatherDetails.willSnow ? 'snow' : 'not snow'}.
             Please suggest what kind of clothes I should wear today—don't mention shoes.
             Be brief, using 75 words or less. Include the day's high.`;
-
-        const reply = await chat(message);
+        const chatClient = chatFactory(client);
+        const reply = await chatClient(message);
 
         res.json({ reply });
     } catch (error) {
-        console.error('Error interacting with OpenAI API:', error.message);
+        console.error('Error interacting with API:', error.message);
 
         res.status(500).json({ error: 'Failed to fetch response from ChatGPT' });
     }

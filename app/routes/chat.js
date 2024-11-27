@@ -1,22 +1,25 @@
 const express = require('express');
-const { chat } = require('../services/openai');
+const { chatFactory } = require('../chatFactory');
 
 const router = express.Router();
 
 router.post('/chat', async (req, res) => {
     try {
         const { message } = req.body;
+        const { client } = req.query;
 
         if (!message) {
             return res.status(400).json({ error: 'Message is required' });
         }
 
-        const reply = await chat(message);
+        const chatClient = chatFactory(client);
+        const reply = await chatClient(message);
 
         res.json({ reply });
     } catch (error) {
-        console.error('Error interacting with OpenAI API:', error.message);
-        res.status(500).json({ error: 'Failed to fetch response from ChatGPT' });
+        console.error('Error interacting with API:', error.message);
+
+        res.status(500).json({ error: `Failed to fetch response from ${system}` });
     }
 });
 

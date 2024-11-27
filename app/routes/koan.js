@@ -1,16 +1,20 @@
 const express = require('express');
-const { chat } = require('../services/openai');
+const { chatFactory } = require('../chatFactory');
 
 const router = express.Router();
 
 router.get('/koan', async (_, res) => {
     try {
+        const { client } = req.query;
+
         const message = 'Tell me another zen koan. Do not include any additional commentary.';
-        const reply = await chat(message);
+        const chatClient = chatFactory(client);
+        const reply = await chatClient(message);
 
         res.json({ reply });
     } catch (error) {
-        console.error('Error interacting with OpenAI API:', error.message);
+        console.error('Error interacting with API:', error.message);
+
         res.status(500).json({ error: 'Failed to fetch response from ChatGPT' });
     }
 });
