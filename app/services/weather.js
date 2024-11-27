@@ -1,11 +1,11 @@
 const axios = require('axios');
 
-const queryWeather = async () => {
+const queryWeather = async (zip) => {
     try {
         const response = await axios.get('https://api.weatherapi.com/v1/forecast.json', {
             params: {
                 key: process.env.WEATHER_API_KEY,
-                q: process.env.ZIP,
+                q: zip,
                 days: 1,
                 aqi: 'no',
                 alerts: 'no',

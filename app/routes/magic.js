@@ -3,7 +3,7 @@ const { chatFactory } = require('../chatFactory');
 
 const router = express.Router();
 
-router.get('/magic', async (_, res) => {
+router.get('/magic', async (req, res) => {
     try {
         const { client } = req.query;
         const message = 'Write a short piece of magical realism that is 200 words or less.';

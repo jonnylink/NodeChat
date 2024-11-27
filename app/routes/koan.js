@@ -3,7 +3,7 @@ const { chatFactory } = require('../chatFactory');
 
 const router = express.Router();
 
-router.get('/koan', async (_, res) => {
+router.get('/koan', async (req, res) => {
     try {
         const { client } = req.query;
 

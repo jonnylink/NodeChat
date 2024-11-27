@@ -4,10 +4,15 @@ const { queryWeather } = require('../services/weather');
 
 const router = express.Router();
 
-router.get('/what-to-wear', async (_, res) => {
+router.get('/what-to-wear', async (req, res) => {
     try {
-        const { client } = req.query;
-        const weatherDetails = await queryWeather();
+        const { client, zip } = req.query;
+
+        if (!zip) {
+            return res.status(400).json({ error: 'Zip code parameter `zip` is required' });
+        }
+
+        const weatherDetails = await queryWeather(zip);
         const message = `The weather forecast for today for zip code ${process.env.ZIP}
             is that it will be ${weatherDetails.summary}
             with a high of ${weatherDetails.maxTemp} and a low of ${weatherDetails.minTemp}.
