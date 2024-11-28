@@ -1,5 +1,5 @@
-# ChatGPT Wrapper
-A super simple Node.js wrapper for OpenAI's ChatGPT and Anthropic's Claude APIs for Fun™
+# Chat Wrapper
+A super simple Node.js server for OpenAI's ChatGPT and Anthropic's Claude APIs for Fun™
 
 By Default ChatGPT is used.
 
@@ -30,7 +30,7 @@ Send a POST request to `/chat` with a JSON body:
 
 ### What to wear
 To get advice on what to wear today:
-Send a GET request to `/what-to-wear`
+Send a GET request to `/what-to-wear?zip=YOUR-ZIP-CODE`
 
 ### Zen koan
 To get a zen koan:
